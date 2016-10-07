@@ -1,8 +1,5 @@
 # TODO
 
-## v1.0.0
-  * Add: automated builds that push tagged binaries to github
-
 ## Future Work
 
 In rough priority order I guess...
