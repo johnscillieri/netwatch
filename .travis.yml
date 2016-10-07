@@ -1,0 +1,17 @@
+sudo: required
+language: c
+compiler: clang
+services:
+- docker
+addons:
+  apt:
+    packages:
+    - upx
+script: make -j2
+deploy:
+  provider: releases
+  api_key:
+    secure: sIlpLjyAsETrIP2pd58YPkU8VcyJzafvcG2zIfH6l51DgBcwk4iZTuxk6HfPHppkaxqPRGvww1RJ5yeTiOyo5FE1nMdBVhTfZbqg/X1tJv/LJ3W8v8dzROmL/igh/gIZozfFk05AmDA6Kk3BDx+mCiSC94TQu9kccS8AcfciY9Zi+wrYjUH+73q5gMHWAIoSNTElN+8fMterJj7MBoyPa615dVQ8KQO7VWNxc0N5YbDTGi2Tbx4g5dq79LNwv6EN78ZjrcUU9YtmfRDF4NokP8laD+AhRIN5Mh6chj0ClbKqzXvn9xcwHMma//fCftiv9omvEL5WdvY3eehrSBNvqhCvqaP+ZR/dW8TwUgwefj7fRpWu26xAQVsxGOA1lQ2z+/W6mRS+VXwV5QIqOX7CQ7pv4PWysnSsuEN/z98ysGDUVUMuS0c3xabE4MFFGGHrP96rPRjLE+DfLLI9YQ9wfsosXatNlClH8SV+2IYrTfycPa4jQxIxFpQZsrz7sXhfUWuWZHiOpe+YzgXGWjh7oxXAJwX6Hrm75nqUzgxlOrNSXQmWlMWur2j/lnrfTqygw1CJsbmINGFWjWzKFOui4TmpwKGcvD1Ub0NcUjk9qgnItLqX5RV5Sa0J0ZRt2YlIeVCW8xcDEhj4ZFltHxO6pdnhDkI87KWTy6F5uCcoacY=
+  file: bin/netwatch
+  on:
+    repo: johnscillieri/netwatch
