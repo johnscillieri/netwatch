@@ -20,7 +20,7 @@ import ui
 
 ################################################################################
 const NAME = "netwatch"
-const VERSION = "0.9.0b"
+const VERSION = "1.0.0"
 const CONFIG_FILE_PATH = "~"/".config"/"netwatch.ini"
 const DOC = """
 $1 $2 - live display of hosts seen in your network

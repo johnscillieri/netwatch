@@ -5,16 +5,20 @@
 A simple and efficient network monitor to display a live table of
 hosts in your network.
 
-Netwatch supports labeling hosts in the table so that as hosts drop on and off
-your network you'll only have to identify them once.
-
 Netwatch can run passively (only _watching_ for new hosts) or it can actively
 scan (the default) to ensure you don't miss a single machine.
+
+## Download
+
+The latest release of netwatch is 1.0.0.
+
+[Click here to download!](https://github.com/johnscillieri/netwatch/releases/download/v1.0.0/netwatch)
 
 ## Why netwatch?
 
 I wanted a tool that cleanly shows all the devices in my network and the last
-time they were seen.
+time they were seen. I also wanted to label the hosts in the table so that as
+they drop on and off the network I only had to identify them once.
 
 I didn't want to rely on updated external configurations like DNS names for
 labels (names like android-ajs14kja2lskd aren't helpful...) or separate tools
