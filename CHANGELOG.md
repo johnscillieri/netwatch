@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Check for UPX in build and warn if not found
 
 ### Changed
+- Now hosted on github
 - Ported to Nim v0.15.0
 - Removed config.nims, all build info is now in the makefile
 

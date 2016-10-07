@@ -1,7 +1,6 @@
 # TODO
 
 ## v1.0.0
-  * Change: hosted on github
   * Add: automated builds that push tagged binaries to github
 
 ## Future Work
