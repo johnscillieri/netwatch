@@ -15,4 +15,4 @@ deploy:
   file: bin/netwatch
   skip_cleanup: true
   on:
-    repo: johnscillieri/netwatch
+    tags: true
