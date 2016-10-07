@@ -1,7 +1,9 @@
-# Netwatch README
+# Netwatch
 
-Netwatch is a simple and efficient network monitor that displays a live table of
-hosts in your network and the last time they were seen.
+[![Build Status](https://travis-ci.org/johnscillieri/netwatch.svg?branch=master)](https://travis-ci.org/johnscillieri/netwatch)
+
+A simple and efficient network monitor to display a live table of
+hosts in your network.
 
 Netwatch supports labeling hosts in the table so that as hosts drop on and off
 your network you'll only have to identify them once.
