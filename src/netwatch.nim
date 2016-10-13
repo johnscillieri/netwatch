@@ -135,7 +135,7 @@ proc sniffer_loop( host_table: OrderedTableRef[string, Host],
         var host = host_table.mgetOrPut( mac_address, Host( label:"", mac:mac_address ) )
         host.ip = ip_address
         host.last_seen = getTime()
-        let key = mac_address.replace(":", "").toUpperAscii()[..5]
+        let key = parseHexInt(mac_address.replace(":", "")[..5])
         host.oui = if key in oui_table: oui_table[key] else: ""
         if mapping != nil and host.label == nil or host.label == "":
             host.label = mapping.getOrDefault( mac_address )

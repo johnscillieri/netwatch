@@ -90,8 +90,8 @@ endif
 
 ./src/oui.nim: docker
 	$(DOCKER_RUN) wget http://linuxnet.ca/ieee/oui/nmap-mac-prefixes -O src/oui.nim && \
-	sed -i 's/\(.*\)/"\1",/g' src/oui.nim && \
-	sed -i 's/\t/":"/g' src/oui.nim && \
+	sed -i 's/\(.*\)\t\(.*\)/0x\1:"\2",/g' src/oui.nim && \
+	sort src/oui.nim -o src/oui.nim && \
 	sed -i '1s/^/let oui_table* = {/' src/oui.nim && \
 	sed -i '1s/^/import tables\n/' src/oui.nim && \
 	echo "}.toTable()" >> src/oui.nim
