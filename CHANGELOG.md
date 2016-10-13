@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+### Changed
+- OUI prefixes are now stored internally as an integer, resulting in slightly
+  smaller binaries.
+
 ## [1.0.0] - 2016-10-07
 ### Added
 - A real license, GPLv3
