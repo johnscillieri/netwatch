@@ -1,5 +1,10 @@
 # TODO
 
+## v1.1.0
+* Resolve DNS names if unlabeled
+* Fix filter to actually use subnet mask
+* Don't change supplied mask to broadest possible for interface
+
 ## Future Work
 
 In rough priority order I guess...
@@ -12,8 +17,6 @@ In rough priority order I guess...
   * Handle large host tables better (e.g. a whole /24 shows up)
     * Allow smaller CIDR networks to be used?
     * Allow specification of a range? (how does this change default_network?)
-  * Should we resolve DNS names if the host is unlabeled?
-      * Color blue if unlabeled
   * Should we alert on an IP address change?
       * Store list of last 10 changes w/time?
       * e.g. Serenity changed from 1.2.3.4 to 1.2.3.5 on 6/9 @ 12:45

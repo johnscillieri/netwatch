@@ -71,8 +71,8 @@ proc render_table*( table: OrderedTableRef[string,Host],
     var row = 0
     for mac, host in table:
         row += 1
-        let last_seen = float( getTime() - host.last_seen )
-        let last_seen_text = if last_seen < 60.float: "<1m" else: humanize_max( last_seen )
+        let last_seen = getTime() - host.last_seen
+        let last_seen_text = if last_seen < 60: "<1m" else: humanize_max( last_seen )
         if row == highlight_row:
             let index = " {:>{}s}. ".fmt( $row, $max_tuple.index )
             let label = "{:{}s}   ".fmt( host.label, $max_tuple.label )

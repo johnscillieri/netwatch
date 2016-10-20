@@ -5,6 +5,10 @@
 ### Changed
 - OUI prefixes are now stored internally as an integer, resulting in slightly
   smaller binaries.
+- Eternity time library now supports generic parameters
+
+### Fixed
+- Bug in eternity causing incorrect Last Seen when > 1d
 
 ## [1.0.0] - 2016-10-07
 ### Added
