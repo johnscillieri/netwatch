@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## [1.1.0] - 2016-11-25
 ### Added
 - Netwatch now resolves DNS names if hosts are unlabeled
 
@@ -76,5 +76,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-[Unreleased]: https://github.com/johnscillieri/netwatch/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/johnscillieri/netwatch/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/johnscillieri/netwatch/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/johnscillieri/netwatch/compare/6f690b7...v1.0.0

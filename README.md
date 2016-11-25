@@ -10,9 +10,9 @@ scan (the default) to ensure you don't miss a single machine.
 
 ## Download
 
-The latest release of netwatch is 1.0.0.
+The latest release of netwatch is 1.1.0.
 
-[Click here to download!](https://github.com/johnscillieri/netwatch/releases/download/v1.0.0/netwatch)
+[Click here to download!](https://github.com/johnscillieri/netwatch/releases/download/v1.1.0/netwatch)
 
 ## Why netwatch?
 
@@ -31,7 +31,7 @@ nobody got time for that).
 
     ./netwatch -h
 
-    netwatch 1.0.0 - live display of hosts seen in your network
+    netwatch 1.1.0 - live display of hosts seen in your network
 
     Usage:
         netwatch [-n <net>] [(-s <secs> | -S <secs>)] [-c <file>] [--passive]
