@@ -73,7 +73,7 @@ display and hosts will begin appearing:
        Label         IP Address      MAC Address         OUI           Last Seen
     1. Router        192.168.1.1     00:7f:28:c2:e5:af   Actiontec     <1m
     2. Serenity      192.168.1.6     00:24:e8:00:06:b6   Dell          <1m
-    3.               192.168.1.23    ec:1a:59:ea:4b:6d   Belkin        <1m
+    3. WeMo          192.168.1.23    ec:1a:59:ea:4b:6d   Belkin        <1m
     4. IP-STB1       192.168.1.100   f4:5f:d4:20:c9:c4   Cisco SPVTG   3m
 
     Press 1-4 to assign a label. Press q to quit.
