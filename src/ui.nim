@@ -146,7 +146,7 @@ proc check_for_resize*( table: OrderedTableRef[string,Host], header:string, slee
 
 proc input_loop*( host_table: OrderedTableRef[string, Host], header:string ) {.async.} =
 
-    const letters = {'a'..'z', 'A'..'Z', ' ', chr(39), '-', '_' }
+    const letters = {'a'..'z', 'A'..'Z', ' ', chr(39), '-', '_', '?', '.' }
     const numbers = {'0'..'9'}
     const enter_key = chr(13)
     const escape_key = chr(27)
