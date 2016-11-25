@@ -1,6 +1,8 @@
 # Change Log
 
 ## Unreleased
+### Added
+- Netwatch now resolves DNS names if hosts are unlabeled
 
 ### Changed
 - OUI prefixes are now stored internally as an integer, resulting in slightly

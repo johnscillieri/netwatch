@@ -1,7 +1,6 @@
 # TODO
 
 ## v1.1.0
-* Resolve DNS names if unlabeled
 * Fix filter to actually use subnet mask
 * Don't change supplied mask to broadest possible for interface
 
