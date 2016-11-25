@@ -2,6 +2,7 @@ import asyncdispatch
 import asyncfile
 import docopt
 import marshal
+import nativesockets
 import os
 import sequtils
 import strutils
@@ -20,7 +21,7 @@ import ui
 
 ################################################################################
 const NAME = "netwatch"
-const VERSION = "1.0.0"
+const VERSION = "1.1.0"
 const CONFIG_FILE_PATH = "~"/".config"/"netwatch.ini"
 const DOC = """
 $1 $2 - live display of hosts seen in your network
@@ -55,6 +56,9 @@ proc prompt_for_default( interface_list: seq[Interface] ): int
 proc sniffer_loop( host_table: OrderedTableRef[string, Host],
                    header: string,
                    mapping: OrderedTableRef[string, string] ) {.async.}
+proc get_name_for_device( ip_address:string,
+                          mac_address: string,
+                          mapping: OrderedTableRef[string, string]): string
 
 proc load_config_data( path: string ): IniFile
 proc save_config_data( ini: IniFile,
@@ -135,15 +139,27 @@ proc sniffer_loop( host_table: OrderedTableRef[string, Host],
         var host = host_table.mgetOrPut( mac_address, Host( label:"", mac:mac_address ) )
         host.ip = ip_address
         host.last_seen = getTime()
-        let key = mac_address.replace(":", "").toUpperAscii()[..5]
+        let key = parseHexInt(mac_address.replace(":", "")[..5])
         host.oui = if key in oui_table: oui_table[key] else: ""
+
         if mapping != nil and host.label == nil or host.label == "":
-            host.label = mapping.getOrDefault( mac_address )
+            host.label = get_name_for_device( host.ip, host.mac, mapping )
 
         let table_string = render_table( host_table )
         if table_string != old_table:
             draw_table( table_string, header )
             old_table = table_string
+
+
+proc get_name_for_device( ip_address:string,
+                          mac_address: string,
+                          mapping: OrderedTableRef[string, string]): string =
+    result = mapping.getOrDefault( mac_address )
+    if result == nil:
+        try:
+            result = getHostByAddr( ip_address ).name
+        except OSError:
+            discard
 
 
 proc load_config_data( path: string ): IniFile =

@@ -71,8 +71,8 @@ proc render_table*( table: OrderedTableRef[string,Host],
     var row = 0
     for mac, host in table:
         row += 1
-        let last_seen = float( getTime() - host.last_seen )
-        let last_seen_text = if last_seen < 60.float: "<1m" else: humanize_max( last_seen )
+        let last_seen = getTime() - host.last_seen
+        let last_seen_text = if last_seen < 60: "<1m" else: humanize_max( last_seen )
         if row == highlight_row:
             let index = " {:>{}s}. ".fmt( $row, $max_tuple.index )
             let label = "{:{}s}   ".fmt( host.label, $max_tuple.label )
@@ -146,7 +146,7 @@ proc check_for_resize*( table: OrderedTableRef[string,Host], header:string, slee
 
 proc input_loop*( host_table: OrderedTableRef[string, Host], header:string ) {.async.} =
 
-    const letters = {'a'..'z', 'A'..'Z', ' ', chr(39), '-', '_' }
+    const letters = {'a'..'z', 'A'..'Z', ' ', chr(39), '-', '_', '?', '.' }
     const numbers = {'0'..'9'}
     const enter_key = chr(13)
     const escape_key = chr(27)

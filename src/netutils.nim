@@ -2,7 +2,10 @@ import math
 import nativesockets
 import net
 import posix
+import sequtils
 import strutils
+
+import psutil
 
 type MAC* = array[ 6, uint8 ]
 
@@ -11,13 +14,18 @@ converter to_mac*( parts: array[6, int] ): MAC =
       parts[2].uint8, parts[3].uint8,
       parts[4].uint8, parts[5].uint8 ]
 
+converter from_string( mac: string ): MAC =
+    let bytes = mac.split(":")
+    for i, byte in bytes:
+        result[i] = parseHexInt( byte ).uint8
+
 proc `$`*( address: MAC ): string =
     result = "$1:$2:$3:$4:$5:$6".format( address[0].int.toHex(2),
                                          address[1].int.toHex(2),
                                          address[2].int.toHex(2),
                                          address[3].int.toHex(2),
                                          address[4].int.toHex(2),
-                                         address[5].int.toHex(2) ).tolower()
+                                         address[5].int.toHex(2) ).toLowerAscii()
 
 proc InAddr*( ip_address: string ): InAddr =
     InAddr(s_addr:inet_addr(ip_address))
@@ -87,79 +95,21 @@ type Interface* = object of RootObj
     mac*: MAC
 
 
-type ifaddrs = object
-    pifaddrs: ref ifaddrs # Next item in list
-    ifa_name: cstring # Name of interface
-    ifa_flags: uint   # Flags from SIOCGIFFLAGS
-    ifa_addr: ref SockAddr_in  # Address of interface
-    ifa_netmask: ref SockAddr_in # Netmask of interface
-    ifu_broadaddr: ref SockAddr_in # Broadcast address of interface
-    ifa_data: pointer # Address-specific data
-
-
-var AF_INET* {.importc, header: "<sys/socket.h>".}: cint
-var IFF_UP* {.importc, header: "<net/if.h>".}: cint
-var IFF_LOOPBACK* {.importc, header: "<net/if.h>".}: cint
-var SIOCGIFHWADDR* {.importc, header: "<sys/socket.h>".}: cint
-
-
-proc getifaddrs( ifap: var ref ifaddrs ): int
-    {.header: "<ifaddrs.h>", importc: "getifaddrs".}
-
-
-proc freeifaddrs( ifap: ref ifaddrs ): void
-    {.header: "<ifaddrs.h>", importc: "freeifaddrs".}
-
-
-proc `$`( address: ref Sockaddr_in ): string =
-    if address == nil:
-        result = ""
-    else:
-        result = $inet_ntoa( address.sin_addr )
-
-
-proc mac_address*( adapter_name: string ): MAC =
-    type ifreq = object
-        ifr_name: array[16, char]
-        ifru_hwaddr: SockAddr
-
-    let s = newSocket();
-    var data: ifreq
-    var name = newString( 16 )
-    name = adapter_name
-    copyMem(addr data.ifr_name, addr( name[0] ), len( adapter_name ) )
-    let ret_code = ioctl(FileHandle(s.getfd), SIOCGIFHWADDR.uint, addr data)
-    close(s)
-
-    if ret_code != -1:
-        copyMem( addr result[0], addr data.ifru_hwaddr.sa_data, sizeof(MAC) )
-
-
 proc interfaces*(): seq[Interface] =
-    var interfaces : ref ifaddrs
-    var current : ref ifaddrs
-    let ret_code = getifaddrs( interfaces )
-    if ret_code == -1:
-        echo( "getifaddrs error: ", strerror( errno ) )
-        return nil
-
-    current = interfaces
-
     result = newSeq[Interface]()
-    while current != nil:
-        let interface_up = (current.ifa_flags and IFF_UP.uint) > 0.uint
-        let is_inet4 = current.ifa_addr.sin_family == AF_INET
-        let is_not_loopback = (current.ifa_flags and IFF_LOOPBACK.uint) == 0
-        if interface_up and is_inet4 and is_not_loopback:
-            result.add( Interface( name: $current.ifa_name,
-                                   address: $current.ifa_addr,
-                                   broadcast: $current.ifu_broadaddr,
-                                   netmask: $current.ifa_netmask,
-                                   mac: mac_address( $current.ifa_name ) ) )
+    let interface_list = psutil.net_if_addrs()
+    for name, current in interface_list:
+        for item in current:
+            let is_not_inet4 = item.family != posix.AF_INET
+            let is_loopback = item.address == "127.0.0.1"
+            if is_not_inet4 or is_loopback: continue
 
-        current = current.pifaddrs
-
-    freeifaddrs( interfaces )
+            let mac_string = filterIt( interface_list[name], it.family == 17 )[0].address
+            result.add( Interface( name: name,
+                                   address: item.address,
+                                   broadcast: item.broadcast,
+                                   netmask: item.netmask,
+                                   mac: mac_string ) )
 
 
 proc network_for_interface*( iface: Interface ): string =
